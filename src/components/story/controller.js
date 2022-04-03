@@ -54,13 +54,11 @@ export const store = (req, res) => {
 // METHOD: PUT
 export const update = (req, res) => {
   // edita un story
-  const filtroId = stories.filter(function(i){
-    return req.params.id == i.id
-  })
-  filtroId[0].name = req.body.name
-  filtroId[0].author = req.body.author
-  filtroId[0].image = req.body.image
-  filtroId[0].description = req.body.description
+  const filtroId = stories.find(i => String(i.id) === String(req.params.id) )
+  filtroId.name = req.body.name
+  filtroId.author = req.body.author
+  filtroId.image = req.body.image
+  filtroId.description = req.body.description
   return res.status(201).json({
     ok: true,
     data: "Update Success",
@@ -71,14 +69,8 @@ export const update = (req, res) => {
 // METHOD: DELETE
 export const destroy = (req, res) => {
   // elimina un story
-  var indexe = null
-  var elemento = null
-  const filtroId= stories.filter(function(i){
-    elemento = i
-    return req.params.id == i.id
-  })
-  indexe = stories.indexOf(elemento);
-  stories.splice(indexe)
+  const filtroId = stories.find(i => String(i.id) === String(req.params.id) )
+  stories.splice(stories.indexOf(filtroId))
   return res.status(200).json({
     ok: true,
     data: "Delete Success",
